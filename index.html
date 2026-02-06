@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The First Rose 🌹</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Georgia", serif;
+    background: linear-gradient(120deg, #ffdde1, #ee9ca7);
+    color: #4b1c2d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .game {
+    background: rgba(255, 255, 255, 0.95);
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 15px;
+  }
+
+  #story {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    min-height: 120px;
+  }
+
+  .choices button {
+    background: #e63973;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    margin: 8px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .choices button:hover {
+    background: #b8325a;
+    transform: scale(1.05);
+  }
+
+  .rose {
+    font-size: 50px;
+    animation: float 2s infinite ease-in-out;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="game">
+  <h1>The First  Rose 🌹</h1>
+  <div id="story"></div>
+  <div class="choices" id="choices"></div>
+</div>
+
+<script>
+  const story = document.getElementById("story");
+  const choices = document.getElementById("choices");
+
+  const scenes = {
+    start: {
+      text: "On a quiet evening, you find yourself walking alone. The world feels calm… but something is missing.",
+      options: [
+        { text: "Keep walking", next: "walk" },
+        { text: "Stop and look around", next: "look" }
+      ]
+    },
+
+    walk: {
+      text: "As you walk, you notice a single rose lying on the path. Fresh. Red. Waiting.",
+      options: [
+        { text: "Pick up the rose", next: "rose" },
+        { text: "Leave it behind", next: "leave" }
+      ]
+    },
+
+    look: {
+      text: "You pause… and realize love isn’t loud. It’s quiet moments like this.",
+      options: [
+        { text: "Search for the feeling", next: "rose" },
+        { text: "Smile and continue", next: "leave" }
+      ]
+    },
+
+    leave: {
+      text: "You walk away… yet something pulls at your heart. Some things are meant to be chosen.",
+      options: [
+        { text: "Go back for the rose", next: "rose" }
+      ]
+    },
+
+    rose: {
+      text: "You hold the rose gently. It feels warm — like it was always meant for someone special.",
+      options: [
+        { text: "Give the rose", next: "end" }
+      ]
+    },
+
+    end: {
+      text: `
+        <div class="rose">🌹</div>
+        <br>
+        No matter whatever path you chose…<br><br>
+        <strong>Ill always choose you.</strong><br><br>
+        Happy Rose Day ❤️
+      `,
+      options: []
+    }
+  };
+
+  function loadScene(scene) {
+    story.innerHTML = scenes[scene].text;
+    choices.innerHTML = "";
+
+    scenes[scene].options.forEach(option => {
+      const btn = document.createElement("button");
+      btn.textContent = option.text;
+      btn.onclick = () => loadScene(option.next);
+      choices.appendChild(btn);
+    });
+  }
+
+  loadScene("start");
+</script>
+
+</body>
+</html>
